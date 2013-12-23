@@ -19,8 +19,21 @@
 # limitations under the License.
 #
 
-# Update/fetch all git and svn repositories under current working
-# directory. Stores logs in update-all-repos.log
+# This script will update all repositories under current working directory.
+#
+# For example, if you have following directory structure:
+#
+#   dir/
+#   dir/svn_repo
+#   dir/git_repo
+#   dir/normal_file
+#   dir/normal_directory
+#
+# Then this script will call 'svn up' for the svn_repo directory and 'git fetch'
+# for all configured remotes for the 'git_repo' directory. File normal_file and
+# directory normal_directory are left untouched.
+#
+# Script will output stdin and stdout to update-all-repos.[log|err] file.
 
 # Current working directory
 master_root=`pwd`

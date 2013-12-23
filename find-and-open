@@ -26,6 +26,9 @@
 # regexp, we wil open it directly in $EDITOR. Otherwise we will print
 # out all found files and offer user the ability to choose what file
 # should be opened.
+#
+# Environmental variables:
+# 1) EDITOR - editor that should be opened
 
 # Regular expression given by user
 regexp=$1
