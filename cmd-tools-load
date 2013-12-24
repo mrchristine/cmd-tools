@@ -24,6 +24,9 @@
 # 1) Ensure that we have latest varsion (from git)
 # 2) Load the tools into $PATH variable
 
+# Current working directory
+pwd=`pwd`
+
 # Directory of this script
 dir=`dirname $0`
 
@@ -51,3 +54,6 @@ fi
 
 # Finally put all the tools into the path
 export PATH="$PATH:$dir"
+
+# Return to original working directory
+cd $pwd
