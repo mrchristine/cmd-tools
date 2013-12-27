@@ -1,0 +1,55 @@
+#!/bin/bash
+#
+# Copyright 2013 Jarek Jarcec Cecho <jarcec@apache.org>
+#
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+# Usage: gb-grep <regexp>
+#
+# Search all git branches for commit messages that satisfies given regular
+# expression. Only first line of each commit message is used. Branches with
+# successful hit will be printed out, for example:
+#
+# gp-grep SQOOP-567
+# remotes/origin/branch-1.99.1: 12e049b4ec009f0a5536e122a540add7e9adc694 SQOOP-567 Support connection ...
+# remotes/origin/branch-1.99.2: 12e049b4ec009f0a5536e122a540add7e9adc694 SQOOP-567 Support connection ...
+# ...
+# 
+# This tool is useful to find out on what branches (releases) is given JIRA available.
+
+# Parameters
+regexp=$1
+
+if [[ -z $regexp ]] ; then 
+  echo "Missing regexp parameter."
+  exit 1
+fi
+
+echo "Searching for $regexp"
+
+# Get git branches, remove pointers if any (for example HEAD -> something)
+for branch in `git branch -a | sed -re "s/^(.*)->.*$/\1/"`; do
+
+  # See if the first lines of the commits matches the searched regexp
+  output=`git log --pretty=oneline $branch | grep $regexp`
+
+  # If so, print it out with the branch name
+  if [[ -n $output ]]; then
+    echo $branch: $output
+  fi
+done
