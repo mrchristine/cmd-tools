@@ -9,4 +9,4 @@ Instalation
     mkdir ~/.jarcec
     cd ~/.jarcec
     git clone https://github.com/jarcec/cmd-tools.git
-    echo `pwd`/cmd-tools/cmd-tools-load > ~/.bashrc
+    echo `pwd`/cmd-tools/cmd-tools-load >> ~/.bashrc
