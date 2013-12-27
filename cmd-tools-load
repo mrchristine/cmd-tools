@@ -40,6 +40,7 @@ date=`date +%Y-%m-%d`
 # We are expecting no local changes, thus the pull instead of fetch
 function update() {
   echo "Updating Jarcec's command line tools"
+  cd $dir
   git pull
   echo $date > $last
 }
