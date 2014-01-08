@@ -46,7 +46,7 @@ echo "Searching for $regexp"
 for branch in `git branch -a | sed -re "s/^(.*)->.*$/\1/"`; do
 
   # See if the first lines of the commits matches the searched regexp
-  output=`git log --pretty=oneline $branch | grep $regexp`
+  output=`git log --pretty=oneline $branch | grep "$regexp"`
 
   # If so, print it out with the branch name
   if [[ -n $output ]]; then
