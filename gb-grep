@@ -32,6 +32,20 @@
 # 
 # This tool is useful to find out on what branches (releases) is given JIRA available.
 
+# Command line options
+log_long=0
+while getopts ":l" opt; do
+  case $opt in
+    l)
+      log_long=1
+      ;;
+    \?)
+      echo "Invalid option: -$OPTARG" >&2
+      ;;
+  esac
+done
+shift $((OPTIND-1))
+
 # Parameters
 regexp=$1
 
@@ -46,9 +60,12 @@ echo "Searching for $regexp"
 for branch in `git branch -a | sed -re "s/^(.*)->.*$/\1/"`; do
 
   # Check to see if any of the log messages match and print the first line only
-  output=`git log $branch | grep "$regexp" | head -n 1`
-  # See if the first lines of the commits matches the searched regexp
-  # output=`git log --pretty=oneline $branch | grep "$regexp"`
+  if [ $log_long -eq 1 ]; then
+    output=`git log $branch | grep "$regexp" | head -n 1`
+  else
+    # See if the first lines of the commits matches the searched regexp
+    output=`git log --pretty=oneline $branch | grep "$regexp"`
+  fi
 
   # If so, print it out with the branch name
   if [[ -n $output ]]; then
